@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>WebRTC LIVE Test</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <link href="/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+               
+         <div id="Socketio-Room">
+            <div>
+                <h3>ID</h3>
+                <h4 id="newone"></h4>
+                <% if (user === 'host') { %>
+                    <h3>Live</h3>
+                    <video id="videoA" autoplay></video>
+                 <%}%>
+                <h3>Record Play</h3>
+                <video id="videoB" autoplay></video>
+            </div> 
+            <% if (user === 'host') { %>
+                <button id="send">Start</button>
+            <%}%>
+        </div>
+            
+        <script src="/livevideo.js"></script>
+    </body>
