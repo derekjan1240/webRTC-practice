@@ -34,21 +34,21 @@ io.on('connection', (socket) => {
 
     // Handle typing event
     socket.on('readyStream', function(data){
-        // console.log('readyStream server!');
+        console.log('readyStream server!');
         socket.emit('startStream');
     });
 
     // Handle typing event
     socket.on('sendStream', function(data){
-        // console.log('sendStream!')
-        // console.log('content:', data.stream);
+        console.log('sendStream!')
+        console.log('content:', data.stream);
         // socket.broadcast.emit('showStream', data.stream);
         io.sockets.emit('showStream', data.stream);
     });
 
     // Handle typing event
     socket.on('againStream', function(data){
-        // console.log('againStream server!');
+        console.log('againStream server!');
         socket.emit('againStream');
     });
 

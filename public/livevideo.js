@@ -1,5 +1,6 @@
-// Make connection
-const socket = io.connect('http://localhost:5000');  
+// Make connection 
+// const socket = io.connect('http://localhost:5000'); 
+var socket = io();
 
 // Query DOM
 let getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
@@ -123,6 +124,3 @@ function postVideoToServer(superBuffer) {
     stream: superBuffer
   });  
 }
-
-
-    
