@@ -40,16 +40,16 @@ io.on('connection', (socket) => {
 
     // Handle typing event
     socket.on('sendStream', function(data){
-        console.log('sendStream!')
-        console.log('content:', data.stream);
-        // socket.broadcast.emit('showStream', data.stream);
+        console.log('sendStream!');
+        console.log('Stream content:', data.stream);
+        //send stream to everyone
         io.sockets.emit('showStream', data.stream);
     });
 
     // Handle typing event
     socket.on('againStream', function(data){
-        console.log('againStream server!');
-        socket.emit('againStream');
+       console.log('againStream server!'); 
+       socket.emit('againStream');
     });
 
 });

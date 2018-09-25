@@ -1,6 +1,7 @@
 // Make connection 
 // const socket = io.connect('http://localhost:5000'); 
 var socket = io();
+let who;
 
 // Query DOM
 let getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
@@ -12,41 +13,51 @@ let btn = document.getElementById('send'),
 let webcamstream, streamRecorder;
 let recordedChunks = [];
 
-// Emit events
-if(btn){
-  btn.addEventListener('click', () => {
-    socket.emit('readyStream'); 
-  });
+socket.on('news', (data) => {
+  // console.log('news!',data)
+  newone.innerHTML = data.userId;        
+});
 
+//identify the role of client 
+if(videoA){
+  who = 'host';
+}else{
+  who = 'audience';
 }
 
-// Listen for events
-socket.on('againStream', (data) => {
-    // console.log('againStream!');
-    socket.emit('readyStream');  
-});
+if(who === 'host'){
 
-socket.on('news', (data) => {
-    // console.log('news!',data)
-    newone.innerHTML = data.userId;        
-});
-
-socket.on('startStream', (data) => {
-  // console.log('startStream!');
-  //判段是不是host
-  if(videoA){
-    getMedia();
+  if(btn){
+    btn.addEventListener('click', () => {
+      socket.emit('readyStream'); 
+    });
   }
-});
+
+  socket.on('startStream', (data) => {
+    console.log('startStream!');
+    getMedia();
+  });
+
+  socket.on('againStream', (data) => {
+    console.log('againStream!');
+    socket.emit('readyStream');  
+  });
+
+} 
+
 
 socket.on('showStream', (data) => {
-    // console.log('showStream ing!')
-    // videoB.srcObject = data;
-    // console.log('Blob: ',new Blob([new Uint8Array(data)]))
-    videoB.src = window.URL.createObjectURL(new Blob([new Uint8Array(data)]));
 
-    recordedChunks =[];
+  console.log('showStream ing!');
+  videoB.src = window.URL.createObjectURL(new Blob([new Uint8Array(data)]));
+  
+  //Reset recordedChunks
+  recordedChunks =[];
+
+  if(who === 'host'){
     socket.emit('againStream');
+  }
+
 });
 
 function getMedia(){
@@ -59,24 +70,18 @@ function getMedia(){
 
         startRecording();
         
-        // 顯示攝影鏡頭即時畫面
+        // 顯示攝影鏡頭即時畫面(直播主)
         videoA.srcObject = localMediaStream;
-        // videoA.src = window.URL.createObjectURL(localMediaStream);
 
-        // videoA.onloadedmetadata = function(e) {
-          // console.log("Label: " + localMediaStream.label);
-          // console.log("AudioTracks" , localMediaStream.getAudioTracks());
-          // console.log("VideoTracks" , localMediaStream.getVideoTracks());
-        // };
     }, function(e) {
         console.log('Reeeejected!', e);
     });
 }
    
-
 function startRecording() {
   console.log('startRecording!');
-
+  
+  //設定格式
   let options = {mimeType: 'video/webm;'};
 
   if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
@@ -93,7 +98,13 @@ function startRecording() {
 
   //開始錄影
   streamRecorder.start();
+  //設定每段錄影長度
   setTimeout(stopRecording, 5000);
+}
+
+function stopRecording() {
+  // console.log('stopRecording!');
+  streamRecorder.stop();
 }
 
 function handleDataAvailable(event) {
@@ -106,20 +117,11 @@ function handleDataAvailable(event) {
     // console.log('superBuffer:',superBuffer);
 
     postVideoToServer(superBuffer);
-
-  } else {
-    // ...
   }
-}
-
-function stopRecording() {
-  // console.log('stopRecording!');
-  streamRecorder.stop();
 }
 
 function postVideoToServer(superBuffer) {
   // console.log('postemit!')
-
   socket.emit('sendStream', {
     stream: superBuffer
   });  
