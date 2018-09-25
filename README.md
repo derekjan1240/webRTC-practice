@@ -1,5 +1,5 @@
 # webRTC-practice
-## Live stream broadcast with webRTC and socket.io
+## Live stream broadcast with webRTC getUserMedia and socket.io
 > Route
 >>http://127.0.0.1:5000/host : The Streamer Page
 
