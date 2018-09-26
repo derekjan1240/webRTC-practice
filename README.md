@@ -1,5 +1,7 @@
 # webRTC-practice
 
+<hr>
+
 ## Live stream
 ### Live stream broadcast with webRTC getUserMedia and socket.io
 > Usage
@@ -11,6 +13,8 @@
 >>http://127.0.0.1:5000/ : The Audience Page
 
 ### Click the start buttom to start the live stream!
+
+<hr>
 
 ## PeerToPeer stream
 ### PeerToPeer stream throught webRTC and ice Server
