@@ -18,8 +18,7 @@ app.get('/host', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-
-    res.render('main', { user: 'guest' });
+    res.render('main', { user: 'audience' });
 });
 
 // Socket setup & pass server

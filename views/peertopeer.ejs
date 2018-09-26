@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>WebRTC P2P Test</title>
+        <script src="https://webrtc.github.io/adapter/adapter-latest.js" type="application/javascript"></script>
+        <script src="/socket.io/socket.io.js" type="application/javascript"></script>
+        <link href="/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="Socketio-Room">
+            <div>
+                <h2>WebRTC P2P Test</h2>
+                <h3>ID</h3>
+                <h4 id="newone"></h4>
+            </div>
+            <div>
+                <h3> Self View </h3>
+                <video id="selfView" autoplay></video>
+            </div>
+            <div>
+                <h3> Remote View </h3>
+                <video id="remoteView" autoplay></video>
+            </div>
+            <button id="call">Call</button>
+        </div>
+        
+        <script src="/peertopeer.js"></script>
+    </body>
+</html>
